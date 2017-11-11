@@ -1,6 +1,8 @@
+# This file generates a character-based n-gram language model from a textual corpus
+
 from lm_parser import LmParser
+from corpus import Corpus
 import argparse
-from utils import *
 import math
 
 parser = LmParser(description='Generate a character-based language model from a textual corpus.',
@@ -11,16 +13,16 @@ parser.add_argument('-o', '--output', type=str, help='output model file', requir
 
 args = parser.parse_args()
 
-corpus = read_corpus(args.input)
+corpus = Corpus(args.input)
 
 # Generating all possible n-grams
-n_grams = generate_n_grams(corpus["types"], args.n_gram)
+n_grams = corpus.generate_n_grams(args.n_gram)
 
 # Check probability of every n-gram and write to model file
 with open(args.output, 'w', encoding="utf8") as model_file:
 	
 	for n_gram in n_grams:
-		probability = calculate_probability(corpus["tokens"], n_gram)
+		probability = corpus.calculate_probability(n_gram)
 		if probability > 0:
 			n_gram_repr = ' '.join([repr(token) for token in n_gram])
 			model_file.write('%s\t%.5f\n' % (' '.join(n_gram), -math.log(probability, 2)))
