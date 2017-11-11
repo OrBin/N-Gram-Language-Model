@@ -1,12 +1,13 @@
 # This file generates a character-based n-gram language model from a textual corpus
 
-from lm_parser import LmParser
+
+from script_parser import ScriptParser
 from corpus import Corpus
 import argparse
 import math
 
-parser = LmParser(description='Generate a character-based language model from a textual corpus.',
-				  formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=60))
+parser = ScriptParser(description='Generate a character-based language model from a textual corpus.',
+					  formatter_class=lambda prog: argparse.HelpFormatter(prog, max_help_position=60))
 parser.add_argument('-n', '--n-gram', type=int, help='n gram (n value)', required=True)
 parser.add_argument('-i', '--input', type=str, help='input corpus file', required=True)
 parser.add_argument('-o', '--output', type=str, help='output model file', required=True)
