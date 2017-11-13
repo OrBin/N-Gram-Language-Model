@@ -19,12 +19,13 @@ corpus = Corpus(args.input)
 # Generating all possible n-grams
 n_grams = corpus.generate_n_grams(args.n_gram)
 
+print("Generating model, please wait...")
+
 # Check probability of every n-gram and write to model file
 with open(args.output, 'w', encoding="utf8") as model_file:
 	
 	for n_gram in n_grams:
 		probability = corpus.calculate_probability(n_gram)
 		if probability > 0:
-			n_gram_repr = ' '.join([repr(token) for token in n_gram])
-			model_file.write('%s\t%.5f\n' % (' '.join(n_gram), -math.log(probability, 2)))
-			print('%s\t%.5f' % (n_gram_repr, -math.log(probability, 2)))
+			n_gram_repr = ' '.join([repr(token)[1:-1] for token in n_gram])
+			model_file.write('%s\t%.5f\n' % (n_gram_repr, -math.log(probability, 2)))
